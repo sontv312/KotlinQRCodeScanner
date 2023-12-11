@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">QR Code Scanner</string>
+    <string name="flash">Flash</string>
+    <string name="scan_image">Scan image</string>
+    <string name="itf" translatable="false">ITF</string>
+    <string name="aztec" translatable="false">Aztec</string>
+    <string name="pdf_417" translatable="false">PDF417</string>
+    <string name="ean_13" translatable="false">EAN-13</string>
+    <string name="ean_8" translatable="false">EAN-8</string>
+    <string name="upc_e" translatable="false">UPC-E</string>
+    <string name="upc_a" translatable="false">UPC-A</string>
+    <string name="code_128" translatable="false">Code 128</string>
+    <string name="code_93" translatable="false">Code 93</string>
+    <string name="code_39" translatable="false">Code 39</string>
+    <string name="codabar" translatable="false">Codabar</string>
+    <string name="data_matrix" translatable="false">Data Matrix</string>
+    <string name="xda" translatable="false">XDA</string>
+    <string name="qr_code">QR Code</string>
+    <string name="confirm">Confirm</string>
+</resources>
