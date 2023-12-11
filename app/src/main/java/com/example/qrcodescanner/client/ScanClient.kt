@@ -25,7 +25,7 @@ object ScanClient {
         // Create a Retrofit instance if it doesn't exist
         if (retrofit == null) {
             retrofit = Retrofit.Builder()
-                .baseUrl("https://31cb-14-232-123-15.ngrok-free.app/")  // Base URL for the API
+                .baseUrl("https://app-scan-qr-code.ngrok.dev/")  // Base URL for the API
                 .addConverterFactory(GsonConverterFactory.create(gson)) // Gson converter for JSON parsing
                 .build()
         }
