@@ -21,7 +21,7 @@ public interface ScanApi {
      */
     @POST("api/urlScan")
     Call<ScanResponse> sendScan(
-            @Header("Authorization") String header,
+            @Header("Token") String header,
             @Body String urlScan);
 
     /**
@@ -31,6 +31,6 @@ public interface ScanApi {
      * @return A [Call] containing the response [ReportResponse].
      */
     @POST("api/urlRepost")
-    Call<ReportResponse> sendReport(@Header("Authorization") String header,
+    Call<ReportResponse> sendReport(@Header("Token") String header,
                                     @Body ReportRequest reportRequest);
 }

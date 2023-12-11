@@ -12,7 +12,7 @@ object ScanClient {
     fun getClient(): ScanApi {
         if (retrofit == null) {
             retrofit = Retrofit.Builder()
-                .baseUrl("https://2767-14-232-123-15.ngrok-free.app/")
+                .baseUrl("https://31cb-14-232-123-15.ngrok-free.app/")
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build()
         }
