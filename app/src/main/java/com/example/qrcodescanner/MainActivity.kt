@@ -26,9 +26,12 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-
+/**
+ * Main activity for QR code scanning and reporting functionality.
+ */
 class MainActivity : AppCompatActivity() {
 
+    // View binding for the activity
     private lateinit var binding: ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,7 +40,9 @@ class MainActivity : AppCompatActivity() {
         event()
     }
 
-    //sự kiện bấm vào các button
+    /**
+     * Set up event listeners for buttons.
+     */
     private fun event() {
         binding.btnCamera.setOnClickListener {
             checkPermissionCamera()
@@ -50,17 +55,27 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Reset UI components to their initial state.
+     */
     private fun resetUI() {
         binding.tvResponse.text = "Response"
         binding.textResult.text = "Result"
         binding.tvResponse.setTextColor(ContextCompat.getColor(this@MainActivity, R.color.black))
     }
 
+    /**
+     * Set the result text on the UI.
+     * @param string The text to be set as the result.
+     */
     private fun setResult(string: String) {
         binding.textResult.text = string
     }
 
-    //xử lý kết quả trả về từ server
+    /**
+     * Show the response received from the server.
+     * @param scanResponse The response object containing code and message.
+     */
     private fun showResponse(scanResponse: ScanResponse) {
             when (scanResponse.code) {
                 "00" -> {
@@ -95,7 +110,10 @@ class MainActivity : AppCompatActivity() {
             }
     }
 
-    //post data lên server
+    /**
+     * Post scan data to the server.
+     * @param value The value to be posted.
+     */
     private fun postScan(value: String) {
         val client = ScanClient.getClient()
         val call: Call<ScanResponse> = client.sendScan(Extensions.generateKey(), value)
@@ -118,6 +136,9 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    /**
+     * Show the camera for scanning QR codes.
+     */
     private fun showCamera() {
         scannerLauncher.launch(Extensions.initScan())
     }
@@ -146,10 +167,11 @@ class MainActivity : AppCompatActivity() {
             if (isGranted) {
                 showCamera()
             }
-        } //neu bro ko thich code nhu
+        }
 
-    //kiểm tra quyền truy cập gallery //doc nham ten ham :v
-    // choõ này xóa cái p2 đi cũng đc đúng k bro //theo ly thuyet la dc bro cu manh dan xoa di thoi xong go app di chay lai
+    /**
+     * Check and request gallery permission.
+     */
     private fun checkGalleryPermission() {
         val p1 = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
         if (p1 != PackageManager.PERMISSION_GRANTED ) {
@@ -162,7 +184,6 @@ class MainActivity : AppCompatActivity() {
     /**
      * This function triggers system to ask user accept or deny permission.
      */
-    //viet the nay cung dc cho no dong bo voi cai ben tren //khoi thac mac so 111 ok
     private val requestGalleryPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
             if (isGranted) {
@@ -186,7 +207,9 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    //kq trả về khi scan bằng camera
+    /**
+     * Handle the result of scanning from the camera.
+     */
     private val scannerLauncher =
         registerForActivityResult(ScanContract()) { result: ScanIntentResult ->
             run {
@@ -201,15 +224,15 @@ class MainActivity : AppCompatActivity() {
 
 
 
-    // ket qua tra ve khi chọn ảnh trong kho ảnh
-
+    /**
+     * Handle the result of selecting an image from the gallery.
+     */
     private val startForResult =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
 
-            if (result.resultCode == Activity.RESULT_OK) { // nhung moi cai no phai co so khac nhau de phan biet request
+            if (result.resultCode == Activity.RESULT_OK) {
                 if (result.data!!.data != null) {
-                    //nó sẽ trả về 1 cái uri nằm trong result.data!!.data // do la cau lenh check null của kotlin thay vi viec minh phai if else
-                    val imageUri: Uri? = result.data!!.data // ô cứ hiểu nó để kiểm tra null thôi chứ t ko biết nó làm cái j đâu:v oke
+                    val imageUri: Uri? = result.data!!.data
                     val bitmap: Bitmap? = getBitmapFromUri(this, imageUri)
                     if (bitmap != null) {
                         val it = scanQRCode(bitmap)
@@ -219,7 +242,7 @@ class MainActivity : AppCompatActivity() {
                             } else {
                                 Toast.makeText(
                                     this@MainActivity,
-                                    "Đây không phải đường dẫn",
+                                    "This is not a valid network URL",
                                     Toast.LENGTH_SHORT
                                 ).show()
                             }

@@ -16,9 +16,15 @@ import java.security.SecureRandom
 import java.util.Base64
 import java.util.EnumMap
 
+/**
+ * A utility object containing extension functions and utility methods.
+ */
 object Extensions {
 
-    //khỏi tạo apiKey
+    /**
+     * Generates a random API key.
+     * @return A randomly generated API key.
+     */
     fun generateKey(): String {
         val random = SecureRandom()
         val seed = ByteArray(32)
@@ -26,8 +32,12 @@ object Extensions {
         return Base64.getEncoder().encodeToString(seed)
     }
 
-    //chuyển uri ảnh thành bitmap
-    // ô cứ ghi là convert uri sang bitmap là đc ô thầy nó ko hỏi thêm đâu do đây là câu lệnh mạc đinh r ok
+    /**
+     * Converts a URI to a Bitmap.
+     * @param context The context used to open the input stream.
+     * @param uri The URI of the image.
+     * @return The Bitmap representation of the image, or null if an error occurs.
+     */
     fun getBitmapFromUri(context: Context, uri: Uri?): Bitmap? {
         return try {
             val inputStream = context.contentResolver.openInputStream(uri!!)
@@ -38,7 +48,11 @@ object Extensions {
         }
     }
 
-    //code này của zxing // chỗ này là nó đang convert cái bitmap sang binarybitmap sau do la thu vien zxing no se doc cai binarybitmap de tra ve 1 result
+    /**
+     * Scans a QR code from a Bitmap.
+     * @param bitmap The Bitmap containing the QR code.
+     * @return The decoded text from the QR code, or null if the QR code is not found.
+     */
     fun scanQRCode(bitmap: Bitmap): String? {
         val multiFormatReader = MultiFormatReader()
 
@@ -63,7 +77,10 @@ object Extensions {
         return null
     }
 
-    //khởi tạo ScanOptions
+    /**
+     * Initializes ScanOptions for scanning QR codes.
+     * @return An instance of [ScanOptions] configured for scanning QR codes.
+     */
     fun initScan(): ScanOptions {
         val options = ScanOptions()
         options.setDesiredBarcodeFormats(ScanOptions.QR_CODE)
