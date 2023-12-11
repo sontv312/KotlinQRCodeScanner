@@ -77,37 +77,37 @@ class MainActivity : AppCompatActivity() {
      * @param scanResponse The response object containing code and message.
      */
     private fun showResponse(scanResponse: ScanResponse) {
-            when (scanResponse.code) {
-                "00" -> {
-                    // safe
-                    binding.tvResponse.setTextColor(
-                        ContextCompat.getColor(
-                            this@MainActivity, R.color.safe
-                        )
+        when (scanResponse.code) {
+            "00" -> {
+                // safe
+                binding.tvResponse.setTextColor(
+                    ContextCompat.getColor(
+                        this@MainActivity, R.color.safe
                     )
-                    binding.tvResponse.text = "This link is safe"
-                }
-
-                "01" -> {
-                    //no data
-                    binding.tvResponse.setTextColor(
-                        ContextCompat.getColor(
-                            this@MainActivity, R.color.no_data
-                        )
-                    )
-                    binding.tvResponse.text = "This link may be harmful"
-                }
-
-                "13" -> {
-                    //waring
-                    binding.tvResponse.setTextColor(
-                        ContextCompat.getColor(
-                            this@MainActivity, R.color.warning
-                        )
-                    )
-                    binding.tvResponse.text = "WARNING! This link is malicious"
-                }
+                )
+                binding.tvResponse.text = "This link is safe"
             }
+
+            "01" -> {
+                //no data
+                binding.tvResponse.setTextColor(
+                    ContextCompat.getColor(
+                        this@MainActivity, R.color.no_data
+                    )
+                )
+                binding.tvResponse.text = "This link may be harmful"
+            }
+
+            "13" -> {
+                //waring
+                binding.tvResponse.setTextColor(
+                    ContextCompat.getColor(
+                        this@MainActivity, R.color.warning
+                    )
+                )
+                binding.tvResponse.text = "WARNING! This link is malicious"
+            }
+        }
     }
 
     /**
@@ -129,6 +129,7 @@ class MainActivity : AppCompatActivity() {
                     binding.tvResponse.text = "Check the internet connection"
                 }
             }
+
             override fun onFailure(call: Call<ScanResponse>, t: Throwable) {
                 binding.tvResponse.text = "onFailure: " + t.message
             }
@@ -155,7 +156,8 @@ class MainActivity : AppCompatActivity() {
         ) {
             showCamera()
         } else if (shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)) {
-            Toast.makeText(this@MainActivity, "Camera permission required", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this@MainActivity, "Camera permission required", Toast.LENGTH_SHORT)
+                .show()
         } else requestPermissionLauncher.launch(Manifest.permission.CAMERA)
     }
 
@@ -174,7 +176,7 @@ class MainActivity : AppCompatActivity() {
      */
     private fun checkGalleryPermission() {
         val p1 = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-        if (p1 != PackageManager.PERMISSION_GRANTED ) {
+        if (p1 != PackageManager.PERMISSION_GRANTED) {
             requestGalleryPermissionLauncher.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE)
         } else {
             getImageGallery()
@@ -187,7 +189,7 @@ class MainActivity : AppCompatActivity() {
     private val requestGalleryPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
             if (isGranted) {
-               getImageGallery()
+                getImageGallery()
             }
         }
 
@@ -221,7 +223,6 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
-
 
 
     /**

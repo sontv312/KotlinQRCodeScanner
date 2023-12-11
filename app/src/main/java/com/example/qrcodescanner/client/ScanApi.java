@@ -15,7 +15,8 @@ import retrofit2.http.POST;
 public interface ScanApi {
     /**
      * Sends a scan request to the server.
-     * @param header The authorization header.
+     *
+     * @param header  The authorization header.
      * @param urlScan The URL to be scanned.
      * @return A [Call] containing the response [ScanResponse].
      */
@@ -26,7 +27,8 @@ public interface ScanApi {
 
     /**
      * Sends a report request to the server.
-     * @param header The authorization header.
+     *
+     * @param header        The authorization header.
      * @param reportRequest The [ReportRequest] object containing the URL to be reported.
      * @return A [Call] containing the response [ReportResponse].
      */

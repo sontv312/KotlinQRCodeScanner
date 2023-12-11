@@ -11,6 +11,7 @@ object ScanClient {
 
     // Retrofit instance for network communication
     private var retrofit: Retrofit? = null
+
     // Gson instance with custom date format for JSON parsing
     var gson = GsonBuilder()
         .setDateFormat("yyyy-MM-dd HH:mm:ss")
