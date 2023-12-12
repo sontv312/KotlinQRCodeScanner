@@ -85,8 +85,6 @@ object Extensions {
         val options = ScanOptions()
         options.setDesiredBarcodeFormats(ScanOptions.QR_CODE)
         options.setPrompt("Scan QR code")
-        options.setBarcodeImageEnabled(true)
         return options
     }
-
 }

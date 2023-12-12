@@ -45,7 +45,7 @@ class MainActivity : AppCompatActivity() {
      */
     private fun event() {
         binding.btnCamera.setOnClickListener {
-            checkPermissionCamera()
+            checkCameraPermission()
         }
         binding.btnGallery.setOnClickListener {
             checkGalleryPermission()
@@ -58,7 +58,7 @@ class MainActivity : AppCompatActivity() {
     /**
      * Reset UI components to their initial state.
      */
-    private fun resetUI() {
+    private fun clearUI() {
         binding.tvResponse.text = "Response"
         binding.textResult.text = "Result"
         binding.tvResponse.setTextColor(ContextCompat.getColor(this@MainActivity, R.color.black))
@@ -138,33 +138,20 @@ class MainActivity : AppCompatActivity() {
     }
 
     /**
-     * Show the camera for scanning QR codes.
+     * This function checks camera permission granted to the application and handles action base on result.
      */
-    private fun showCamera() {
-        scannerLauncher.launch(Extensions.initScan())
-    }
-
-    /**
-     * This function check camera permission.
-     * If permission is granted then run camera.
-     * If not display notification message and request permission.
-     */
-    private fun checkPermissionCamera() {
-        if (ContextCompat.checkSelfPermission(
-                this@MainActivity, Manifest.permission.CAMERA
-            ) == PackageManager.PERMISSION_GRANTED
-        ) {
+    private fun checkCameraPermission() {
+        val p1 = ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
+        if (p1 != PackageManager.PERMISSION_GRANTED) {
+            requestCameraPermissionLauncher.launch(Manifest.permission.CAMERA)
+        } else {
             showCamera()
-        } else if (shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)) {
-            Toast.makeText(this@MainActivity, "Camera permission required", Toast.LENGTH_SHORT)
-                .show()
-        } else requestPermissionLauncher.launch(Manifest.permission.CAMERA)
+        }
     }
-
     /**
-     * This function request permission
+     * Set up a permission launcher to handle result of permission request.
      */
-    private val requestPermissionLauncher =
+    private val requestCameraPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
             if (isGranted) {
                 showCamera()
@@ -172,45 +159,7 @@ class MainActivity : AppCompatActivity() {
         }
 
     /**
-     * Check and request gallery permission.
-     */
-    private fun checkGalleryPermission() {
-        val p1 = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-        if (p1 != PackageManager.PERMISSION_GRANTED) {
-            requestGalleryPermissionLauncher.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-        } else {
-            getImageGallery()
-        }
-    }
-
-    /**
-     * This function triggers system to ask user accept or deny permission.
-     */
-    private val requestGalleryPermissionLauncher =
-        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
-            if (isGranted) {
-                getImageGallery()
-            }
-        }
-
-    /**
-     * Activity responsible for handling the reporting functionality.
-     * Users can input a URL, and this activity sends a report request to the server.
-     */
-    private fun getImageGallery() {
-        try {
-            // Create Intent to pick an image from external storage
-            val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-            // Launch image picker
-            startForResult.launch(intent)
-        } catch (exp: Exception) {
-            Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show()
-        }
-    }
-
-
-    /**
-     * Handle the result of scanning from the camera.
+     * Initiate a result launcher to handle result of scanning QR image operation.
      */
     private val scannerLauncher =
         registerForActivityResult(ScanContract()) { result: ScanIntentResult ->
@@ -224,6 +173,48 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+    /**
+     * Initiate QR code scanning activity.
+     */
+    private fun showCamera() {
+        scannerLauncher.launch(Extensions.initScan())
+    }
+
+    /**
+     * This function checks permission granted to the application and handles action base on result.
+     */
+    private fun checkGalleryPermission() {
+        val p1 = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+        if (p1 != PackageManager.PERMISSION_GRANTED) {
+            requestGalleryPermissionLauncher.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+        } else {
+            getImageGallery()
+        }
+    }
+
+    /**
+     * Set up a permission launcher to handle result of permission request.
+     */
+    private val requestGalleryPermissionLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
+            if (isGranted) {
+                getImageGallery()
+            }
+        }
+
+    /**
+     * This function launches an image picker intent to allow user to pick an image from external storage.
+     */
+    private fun getImageGallery() {
+        try {
+            // Create Intent to pick an image from external storage
+            val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+            // Launch image picker
+            startForResult.launch(intent)
+        } catch (exp: Exception) {
+            Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show()
+        }
+    }
 
     /**
      * Handle the result of selecting an image from the gallery.
@@ -249,10 +240,10 @@ class MainActivity : AppCompatActivity() {
                             }
                             setResult(it)
                         } else {
-                            resetUI()
+                            clearUI()
                         }
                     } else {
-                        resetUI()
+                        clearUI()
                     }
                 }
             }
