@@ -32,7 +32,7 @@ public interface ScanApi {
      * @param reportRequest The [ReportRequest] object containing the URL to be reported.
      * @return A [Call] containing the response [ReportResponse].
      */
-    @POST("api/urlRepost")
+    @POST("api/urlReport")
     Call<ReportResponse> sendReport(@Header("Token") String header,
                                     @Body ReportRequest reportRequest);
 }
