@@ -53,7 +53,7 @@ object Extensions {
      * @param bitmap The Bitmap containing the QR code.
      * @return The decoded text from the QR code, or null if the QR code is not found.
      */
-    fun scanQRCode(bitmap: Bitmap): String? {
+        fun scanQRCodeFromBitmap(bitmap: Bitmap): String? {
         val multiFormatReader = MultiFormatReader()
 
         val hints: MutableMap<DecodeHintType, Any> = EnumMap(DecodeHintType::class.java)
@@ -68,7 +68,7 @@ object Extensions {
         val binaryBitmap = BinaryBitmap(HybridBinarizer(source))
 
         try {
-            val result = multiFormatReader.decode(binaryBitmap, hints) //tra ve kq
+            val result = multiFormatReader.decode(binaryBitmap, hints)
             return result.text
         } catch (e: NotFoundException) {
             e.printStackTrace()

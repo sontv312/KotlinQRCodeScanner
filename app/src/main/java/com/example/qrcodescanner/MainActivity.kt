@@ -15,7 +15,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.example.qrcodescanner.Extensions.getBitmapFromUri
-import com.example.qrcodescanner.Extensions.scanQRCode
+import com.example.qrcodescanner.Extensions.scanQRCodeFromBitmap
 import com.example.qrcodescanner.client.ScanClient
 import com.example.qrcodescanner.databinding.ActivityMainBinding
 import com.example.qrcodescanner.models.ScanResponse
@@ -31,7 +31,7 @@ import retrofit2.Response
  */
 class MainActivity : AppCompatActivity() {
 
-    // View binding for the activity
+    // Declare view binding for the activity
     private lateinit var binding: ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -79,7 +79,6 @@ class MainActivity : AppCompatActivity() {
     private fun showResponse(scanResponse: ScanResponse) {
         when (scanResponse.code) {
             "00" -> {
-                // safe
                 binding.tvResponse.setTextColor(
                     ContextCompat.getColor(
                         this@MainActivity, R.color.safe
@@ -89,7 +88,6 @@ class MainActivity : AppCompatActivity() {
             }
 
             "01" -> {
-                //no data
                 binding.tvResponse.setTextColor(
                     ContextCompat.getColor(
                         this@MainActivity, R.color.no_data
@@ -99,7 +97,6 @@ class MainActivity : AppCompatActivity() {
             }
 
             "13" -> {
-                //waring
                 binding.tvResponse.setTextColor(
                     ContextCompat.getColor(
                         this@MainActivity, R.color.warning
@@ -126,15 +123,16 @@ class MainActivity : AppCompatActivity() {
                         showResponse(scanResponse)
                     }
                 } else {
-                    binding.tvResponse.text = "Check the internet connection"
+                    binding.tvResponse.text = "Server isn't available now"
                 }
             }
 
             override fun onFailure(call: Call<ScanResponse>, t: Throwable) {
-                binding.tvResponse.text = "onFailure: " + t.message
+                binding.tvResponse.text =
+                    "Can't connect to the server. Please check the internet connection."
             }
-        })
-
+        }
+        )
     }
 
     /**
@@ -227,7 +225,7 @@ class MainActivity : AppCompatActivity() {
                     val imageUri: Uri? = result.data!!.data
                     val bitmap: Bitmap? = getBitmapFromUri(this, imageUri)
                     if (bitmap != null) {
-                        val it = scanQRCode(bitmap)
+                        val it = scanQRCodeFromBitmap(bitmap)
                         if (it != null) {
                             if (URLUtil.isNetworkUrl(it)) {
                                 postScan(it)
