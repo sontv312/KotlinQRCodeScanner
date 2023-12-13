@@ -123,11 +123,13 @@ class MainActivity : AppCompatActivity() {
                         showResponse(scanResponse)
                     }
                 } else {
+                    clearUI()
                     binding.tvResponse.text = "Server isn't available now"
                 }
             }
 
             override fun onFailure(call: Call<ScanResponse>, t: Throwable) {
+                clearUI()
                 binding.tvResponse.text =
                     "Can't connect to the server. Please check the internet connection."
             }
