@@ -123,7 +123,6 @@ class MainActivity : AppCompatActivity() {
                         showResponse(scanResponse)
                     }
                 } else {
-                    clearUI()
                     binding.tvResponse.text = "Server isn't available now"
                     binding.tvResponse.setTextColor(ContextCompat.getColor(this@MainActivity, R.color.black))
 
