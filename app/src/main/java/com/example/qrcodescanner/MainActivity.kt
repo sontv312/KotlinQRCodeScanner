@@ -125,13 +125,15 @@ class MainActivity : AppCompatActivity() {
                 } else {
                     clearUI()
                     binding.tvResponse.text = "Server isn't available now"
+                    binding.tvResponse.setTextColor(ContextCompat.getColor(this@MainActivity, R.color.black))
+
                 }
             }
 
             override fun onFailure(call: Call<ScanResponse>, t: Throwable) {
-                clearUI()
                 binding.tvResponse.text =
                     "Can't connect to the server. Please check the internet connection."
+                binding.tvResponse.setTextColor(ContextCompat.getColor(this@MainActivity, R.color.black))
             }
         }
         )

@@ -30,19 +30,18 @@
             android:id="@+id/textResult"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textAlignment="center"
             android:layout_marginTop="16dp"
             android:text="RESULT"
             android:textSize="24sp" />
 
         <TextView
             android:textColor="@color/black"
-            android:linksClickable="true"
-            android:textIsSelectable="true"
-            android:autoLink="web"
             android:textColorLink="#3F51B5"
             android:id="@+id/tvResponse"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textAlignment="center"
             android:layout_marginTop="16dp"
             android:padding="20dp"
             android:text="Response"
