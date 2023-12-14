@@ -74,7 +74,7 @@ class ReportActivity : AppCompatActivity() {
                         // Display a failure toast with the response code.
                         Toast.makeText(
                             this@ReportActivity,
-                            "Reported failure. Code: " + response.code(),
+                            "Server isn't available now",
                             Toast.LENGTH_LONG
                         )
                             .show()
@@ -84,7 +84,7 @@ class ReportActivity : AppCompatActivity() {
                 // Handle the onFailure callback.
                 override fun onFailure(call: Call<ReportResponse>, t: Throwable) {
                     // Display a failure toast.
-                    Toast.makeText(this@ReportActivity, "Reported failure", Toast.LENGTH_LONG)
+                    Toast.makeText(this@ReportActivity, "Reported failure. Please check the internet connection.", Toast.LENGTH_LONG)
                         .show()
                 }
             }
