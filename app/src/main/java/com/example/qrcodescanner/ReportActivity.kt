@@ -64,12 +64,6 @@ class ReportActivity : AppCompatActivity() {
                     if (response.isSuccessful) {
                         Toast.makeText(this@ReportActivity, "Reported success", Toast.LENGTH_LONG)
                             .show()
-
-                        // Log the response code in case of a successful response.
-                        val rp: ReportResponse? = response.body()
-                        if (rp != null) {
-                            Log.d("__tag", "onResponse: " + rp.code)
-                        }
                     } else {
                         // Display a failure toast with the response code.
                         Toast.makeText(
@@ -84,7 +78,11 @@ class ReportActivity : AppCompatActivity() {
                 // Handle the onFailure callback.
                 override fun onFailure(call: Call<ReportResponse>, t: Throwable) {
                     // Display a failure toast.
-                    Toast.makeText(this@ReportActivity, "Reported failure. Please check the internet connection.", Toast.LENGTH_LONG)
+                    Toast.makeText(
+                        this@ReportActivity,
+                        "Reported failure. Please check the internet connection.",
+                        Toast.LENGTH_LONG
+                    )
                         .show()
                 }
             }
