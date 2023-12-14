@@ -124,7 +124,12 @@ class MainActivity : AppCompatActivity() {
                     }
                 } else {
                     binding.tvResponse.text = "Server isn't available now"
-                    binding.tvResponse.setTextColor(ContextCompat.getColor(this@MainActivity, R.color.black))
+                    binding.tvResponse.setTextColor(
+                        ContextCompat.getColor(
+                            this@MainActivity,
+                            R.color.black
+                        )
+                    )
 
                 }
             }
@@ -132,7 +137,12 @@ class MainActivity : AppCompatActivity() {
             override fun onFailure(call: Call<ScanResponse>, t: Throwable) {
                 binding.tvResponse.text =
                     "Can't connect to the server. Please check the internet connection."
-                binding.tvResponse.setTextColor(ContextCompat.getColor(this@MainActivity, R.color.black))
+                binding.tvResponse.setTextColor(
+                    ContextCompat.getColor(
+                        this@MainActivity,
+                        R.color.black
+                    )
+                )
             }
         }
         )
@@ -149,6 +159,7 @@ class MainActivity : AppCompatActivity() {
             showCamera()
         }
     }
+
     /**
      * Set up a permission launcher to handle result of permission request.
      */
@@ -168,8 +179,17 @@ class MainActivity : AppCompatActivity() {
                 if (result.contents == null) {
                     Toast.makeText(this, "Cancelled", Toast.LENGTH_SHORT).show()
                 } else {
+                    if (URLUtil.isNetworkUrl(result.contents)) {
+                        postScan(result.contents)
+                    } else {
+                        clearUI()
+                        Toast.makeText(
+                            this@MainActivity,
+                            "This is not a valid network URL",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
                     setResult(result.contents)
-                    postScan(result.contents)
                 }
             }
         }
